@@ -10,6 +10,10 @@ import { Link, PythonService } from './python.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +27,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatExpansionModule,
     MatTableModule,
     MatFormFieldModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatCardModule
   ],
   styleUrls: ['./app.component.scss']
 })
@@ -32,8 +39,9 @@ export class AppComponent {
   links: Link[] = [];
   loading: boolean = false;
   error: string = '';
+  history: string[] = []; 
 
-  constructor(private pythonService: PythonService) {}
+  constructor(private pythonService: PythonService,private http: HttpClient) { }
 
   search() {
     if (!this.query) {
@@ -48,6 +56,8 @@ export class AppComponent {
     this.pythonService.search(this.query).subscribe({
       next: (data) => {
         this.links = data as Link[];
+        const searchTime = new Date().toLocaleString();
+        this.history.unshift(`Qidirildi: ${this.query}  |  vaqti: ${searchTime}`);
         this.loading = false;
       },
       error: (err) => {
@@ -56,5 +66,16 @@ export class AppComponent {
       },
     });
   }
-  
+
+  downloadFile(filename: string) {
+    const url = `http://localhost:3000/search/download/${filename}`;
+    this.http.get(url, { responseType: 'blob' }).subscribe((data: Blob) => {
+      const blob = new Blob([data], { type: 'text/plain' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = filename; // Fayl nomi
+      link.click();
+    });
+  }
+
 }

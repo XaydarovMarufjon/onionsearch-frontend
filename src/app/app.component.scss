@@ -20,3 +20,108 @@
     font-weight: bold;
   }
   
+  .toolbar-title {
+    font-size: 20px;
+    font-weight: bold;
+  }
+  
+  .spacer {
+    flex: 1 1 auto;
+  }
+  
+  .search-input {
+    width: 300px;
+    margin-right: 8px;
+  }
+  
+  .content-card {
+    margin: 16px;
+    padding: 16px;
+  }
+  
+  .full-width-table {
+    width: 100%;
+    margin-top: 16px;
+  }
+  
+  .loading, .error {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  
+  /* Headerni yuqoriga joylashtiramiz */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.page-layout {
+  display: flex;
+  height: 100vh;
+  padding-top: 64px; /* Header balandligi */
+  gap: 16px;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+.content-card, .history-card {
+  flex: 1;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.history-card mat-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-top: 8px;
+}
+/* Headerni yuqoriga joylashtiramiz */
+header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 100;
+}
+
+.page-layout {
+  display: flex;
+  height: 100vh;
+  padding-top: 64px; /* Header balandligi */
+  gap: 16px;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+.content-card, .history-card {
+  flex: 1;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  overflow: hidden;
+}
+
+.scrollable-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-right: 10px;
+}
+
+.history-card mat-list {
+  overflow-y: auto;
+  flex-grow: 1;
+  margin-top: 8px;
+}

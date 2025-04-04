@@ -1,55 +1,74 @@
-<br><br>
+<header class="header py-2">
+  <mat-toolbar color="primary">
+    <span>OnionSearch</span>
+    <mat-form-field appearance="outline" class="full-width mt-2">
+      <mat-label>Qidiruv so‘rovi</mat-label>
+      <input matInput [(ngModel)]="query" placeholder="Bitcoin, Dark Web, ..." (keydown.enter)="search()" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="search()">Qidirish</button>
+  </mat-toolbar>
+</header>
 
-<div class="search-container">
-  <mat-form-field appearance="outline" class="full-width">
-    <mat-label>Qidiruv so‘rovi</mat-label>
-    <input matInput [(ngModel)]="query" placeholder="Bitcoin, Dark Web, ..." />
-  </mat-form-field>
-  <button mat-raised-button color="primary" (click)="search()">Qidirish</button>
+<div class="page-layout">
+  <!-- Qidiruv va natijalar -->
+  <mat-card class="content-card">
+    <div class="scrollable-content">
+      <h2>Tor tarmoqdagi linklar</h2>
+      <div *ngIf="loading" class="loading">
+        <mat-spinner diameter="50"></mat-spinner>
+        <p>Qidirilmoqda...</p>
+      </div>
+
+      <div *ngIf="error" class="error">
+        <p>{{ error }}</p>
+      </div>
+
+      <div *ngIf="links.length > 0">
+       
+        <table mat-table [dataSource]="links" class="mat-elevation-z8">
+          <ng-container matColumnDef="download">
+            <th mat-header-cell *matHeaderCellDef>Yuklab olish</th>
+            <td mat-cell *matCellDef="let link">
+              <button mat-raised-button (click)="downloadFile(link.filename)">Yuklab olish</button>
+            </td>
+          </ng-container>
+          <!-- Jadvalning ustunlari va qatorlari -->
+          <ng-container matColumnDef="num">
+            <th mat-header-cell *matHeaderCellDef>#</th>
+            <td mat-cell *matCellDef="let link">{{ link.num }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="resurs">
+            <th mat-header-cell *matHeaderCellDef>Resurs</th>
+            <td mat-cell *matCellDef="let link">{{ link.resurs }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="title">
+            <th mat-header-cell *matHeaderCellDef>Sarlavha</th>
+            <td mat-cell *matCellDef="let link">{{ link.title }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="url">
+            <th mat-header-cell *matHeaderCellDef>Havola</th>
+            <td mat-cell *matCellDef="let link">
+              <a [href]="link.url" target="_blank">{{ link.url }}</a>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="['download','num', 'resurs', 'title', 'url', ]"></tr>
+          <tr mat-row *matRowDef="let row; columns: ['download', 'num', 'resurs', 'title', 'url'];"></tr>
+        </table>
+      </div>
+    </div>
+  </mat-card>
+
+  <!-- Qidiruvlar tarixi -->
+  <mat-card class="history-card m-3">
+    <h3>Qidiruvlar tarixi</h3>
+    <mat-list>
+      <mat-list-item *ngFor="let item of history">
+        {{ item }}
+      </mat-list-item>
+    </mat-list>
+  </mat-card>
 </div>
-
-<div *ngIf="loading" class="loading">
-  <mat-spinner diameter="50"></mat-spinner>
-  <p>Qidirilmoqda...</p>
-</div>
-
-<div *ngIf="error" class="error">
-  <p>{{ error }}</p>
-</div>
-
-<div *ngIf="links.length > 0">
-  <h2>Tor tarmoqdagi linklar</h2>
-
-  <table mat-table [dataSource]="links" class="mat-elevation-z8">
-    <!-- # -->
-    <ng-container matColumnDef="num">
-      <th mat-header-cell *matHeaderCellDef>#</th>
-      <td mat-cell *matCellDef="let link">{{ link.num }}</td>
-    </ng-container>
-
-    <!-- Resurs -->
-    <ng-container matColumnDef="resurs">
-      <th mat-header-cell *matHeaderCellDef>Resurs</th>
-      <td mat-cell *matCellDef="let link">{{ link.resurs }}</td>
-    </ng-container>
-
-    <!-- Sarlavha -->
-    <ng-container matColumnDef="title">
-      <th mat-header-cell *matHeaderCellDef>Sarlavha</th>
-      <td mat-cell *matCellDef="let link">{{ link.title }}</td>
-    </ng-container>
-
-    <!-- Havola -->
-    <ng-container matColumnDef="url">
-      <th mat-header-cell *matHeaderCellDef>Havola</th>
-      <td mat-cell *matCellDef="let link">
-        <a [href]="link.url" target="_blank">{{ link.url }}</a>
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="['num', 'resurs', 'title', 'url']"></tr>
-    <tr mat-row *matRowDef="let row; columns: ['num', 'resurs', 'title', 'url'];"></tr>
-  </table>
-</div>
-<!-- misol uchun -->
-<button class="btn btn-primary">Bosish</button>

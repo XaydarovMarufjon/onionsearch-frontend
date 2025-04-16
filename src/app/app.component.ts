@@ -67,13 +67,13 @@ export class AppComponent {
     });
   }
 
-  downloadFile(filename: string) {
-    const url = `http://localhost:3000/search/download/${filename}`;
+  downloadFile() {
+    const url = `http://localhost:3000/search/download/${this.query}`;
     this.http.get(url, { responseType: 'blob' }).subscribe((data: Blob) => {
       const blob = new Blob([data], { type: 'text/plain' });
       const link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = filename; // Fayl nomi
+      link.download = this.query; // Fayl nomi
       link.click();
     });
   }

@@ -13,7 +13,7 @@
   <!-- Qidiruv va natijalar -->
   <mat-card class="content-card">
     <div class="scrollable-content">
-      <h2>Tor tarmoqdagi linklar</h2>
+      <h2>Tor tarmoqdagi linklar</h2>  <button mat-raised-button (click)="downloadFile()">Yuklab olish</button>
       <div *ngIf="loading" class="loading">
         <mat-spinner diameter="50"></mat-spinner>
         <p>Qidirilmoqda...</p>
@@ -22,16 +22,13 @@
       <div *ngIf="error" class="error">
         <p>{{ error }}</p>
       </div>
-
+   
+        
+     
       <div *ngIf="links.length > 0">
        
         <table mat-table [dataSource]="links" class="mat-elevation-z8">
-          <ng-container matColumnDef="download">
-            <th mat-header-cell *matHeaderCellDef>Yuklab olish</th>
-            <td mat-cell *matCellDef="let link">
-              <button mat-raised-button (click)="downloadFile(link.filename)">Yuklab olish</button>
-            </td>
-          </ng-container>
+     
           <!-- Jadvalning ustunlari va qatorlari -->
           <ng-container matColumnDef="num">
             <th mat-header-cell *matHeaderCellDef>#</th>
@@ -55,8 +52,8 @@
             </td>
           </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="['download','num', 'resurs', 'title', 'url', ]"></tr>
-          <tr mat-row *matRowDef="let row; columns: ['download', 'num', 'resurs', 'title', 'url'];"></tr>
+          <tr mat-header-row *matHeaderRowDef="['num', 'resurs', 'title', 'url', ]"></tr>
+          <tr mat-row *matRowDef="let row; columns: [ 'num', 'resurs', 'title', 'url'];"></tr>
         </table>
       </div>
     </div>
